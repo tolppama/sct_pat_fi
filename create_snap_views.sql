@@ -60,6 +60,44 @@ create view snap_langrefset as (
         )
 );
 
+-- attribute value reference set
+drop view if exists snap_attributevaluerefset;
+
+CREATE VIEW snap_attributevaluerefset as (
+    select
+        *
+    from
+        attributevaluerefset_f tbl
+    where
+        tbl.effectiveTime = (
+            select
+                max(sub.effectiveTime)
+            from
+                attributevaluerefset_f sub
+            where
+                sub.id = tbl.id
+        )
+);
+
+-- association reference set
+drop view if exists snap_associationrefset;
+
+CREATE VIEW snap_associationrefset as (
+    select
+        *
+    from
+        associationrefset_f tbl
+    where
+        tbl.effectiveTime = (
+            select
+                max(sub.effectiveTime)
+            from
+                associationrefset_f sub
+            where
+                sub.id = tbl.id
+        )
+);
+
 -- fully specified name
 drop view if exists snap_fsn;
 
