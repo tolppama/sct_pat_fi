@@ -7,7 +7,7 @@ DECLARE
   nursinghealthissues TEXT := '/SnomedCT_NursingHealthIssues_PRODUCTION_20211031T120000Z';
   type TEXT := 'Full'; -- Change between Full, Delta, Snapshot.
   release TEXT := 'INT_20210731'; -- Change between each release
-  suffix TEXT := '_f'; -- Suffix of the database table. _f stands for full, _d stands for delta, _s stands for snapshot
+  -- suffix TEXT := '_f'; -- Suffix of the database table. _f stands for full, _d stands for delta, _s stands for snapshot
 BEGIN
   suffix := CASE type WHEN 'Full' THEN '_f' WHEN 'Delta' THEN '_d' WHEN 'Snapshot' THEN '_s' ELSE '' END;
 

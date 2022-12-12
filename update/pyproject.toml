@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "update-sct-pat-fi"
+version = "0.1.0"
+description = ""
+authors = ["Matias Tolppanen <matias.tolppanen@outlook.com>"]
+readme = "README.md"
+packages = [{include = "update_sct_pat_fi"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^1.5.2"
+openpyxl = "^3.0.10"
+SQLAlchemy = "^1.4.44"
+numpy = "^1.23.5"
+invoke = "^1.7.3"
+python-dotenv = "^0.21.0"
+psycopg2-binary = "^2.9.5"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+pylint = "^2.15.7"
+coverage = "^6.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
