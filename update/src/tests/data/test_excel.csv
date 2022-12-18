@@ -1,0 +1,7 @@
+lineid,status,tmdc,lang,in_use,legacy_conceptid,legacy_termid,sct_conceptid,sct_concept_fsn,sct_termid,sct_termid_en,sct_term,effectivetime,supersededtime,superseded_by,Inaktivoinnin selite
+331,,M,en,N,M01000-125513006,M01000-194003013,125513006,Reactive cellular changes (morphologic abnormality),194003013,331,Reactive cellular changes,2022-10-01,2022-12-31,,11
+331,edit,M,en,Y,M01000-125513006,M01000-,125513006,Reactive changes (morphologic abnormality),,331,Reactive  changes,2023-01-01,2099-12-31,,
+10241,,M,fi,N,M01000-125513006,M01000-25451000288114,125513006,Reactive cellular changes (morphologic abnormality),25451000288114,331,Reaktiivisia muutoksia,2022-10-01,2022-12-31,,11
+10241,edit,M,fi,Y,M01000-125513006,M01000-25451000288114,125513006,Reactive cellular changes (morphologic abnormality),25451000288114,331,Reaktiivisia muutoksia,2023-01-01,2099-12-31,,
+15960,,M,sv,N,M01000-125513006,M01000-25461000288112,125513006,Reactive cellular changes (morphologic abnormality),25461000288112,331,Reaktiva förändringar,2022-10-01,2022-12-31,,11
+15960,edit,M,sv,Y,M01000-125513006,M01000-25461000288112,125513006,Reactive cellular changes (morphologic abnormality),25461000288112,331,Reaktiva förändringar,2023-01-01,2099-12-31,,
