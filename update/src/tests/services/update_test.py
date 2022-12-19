@@ -5,7 +5,6 @@ from services import Component
 
 
 class MockExcel:
-    # read the csv files and convert them to pandas dataframes
     def __init__(self):
         self.dirname = os.path.dirname(__file__)
         self.fake_excel = self.read_test_data(os.path.join(
