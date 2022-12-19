@@ -13,25 +13,25 @@ class Component:
         table.to_excel(self.__config.excel_path, index=False)
 
     def get_edit_rows(self, table: 'pd.DataFrame'):
-        return table[(table['lineid'].duplicated(keep=False))]
+        return table[(table['lineid'].duplicated(keep=False))].copy()
 
     def get_new_rows(self, table: 'pd.DataFrame'):
-        return table[table['status'] == 'new']
+        return table[table['status'] == 'new'].copy()
 
     def get_inactivated_rows(self, table: 'pd.DataFrame'):
-        return table[table['status'] == 'inactivated']
+        return table[table['status'] == 'inactivated'].copy()
 
     def get_en_rows(self, table: 'pd.DataFrame'):
-        return table[table['lang'] == 'en']
+        return table[table['lang'] == 'en'].copy()
 
     def get_lang_rows(self, table: 'pd.DataFrame'):
-        return table[table['lang'] != 'en']
+        return table[table['lang'] != 'en'].copy()
 
     def get_old_row(self, table: 'pd.DataFrame'):
-        return table[table['status'] != 'edit']
+        return table[table['status'] != 'edit'].copy()
 
     def get_new_row(self, table: 'pd.DataFrame'):
-        return table[table['status'] == 'edit']
+        return table[table['status'] == 'edit'].copy()
 
     def create_bundles(self, rows: 'pd.DataFrame'):
         bundles = []
@@ -72,9 +72,14 @@ class Component:
             table.at[lang_row.Index, 'sct_termid_en'] = parentid
         return table
 
-    def handle_new_line(self, table: 'pd.DataFrame', old_row: 'pd.Series', new_row: 'pd.Series', new_lineid: int):
-        table.at[new_row.index.values[0], 'lineid'] = new_lineid
-        table.at[old_row.index.values[0], 'superseded_by'] = new_lineid
-        table.at[old_row.index.values[0], 'in_use'] = 'N'
-        table.at[new_row.index.values[0], 'in_use'] = 'Y'
+    def handle_old_row(self, table: 'pd.DataFrame', old_row: 'pd.DataFrame', new_lineid: int):
+        old_index = table.loc[table['lineid'] ==
+                              old_row.iloc[0]['lineid']].index[0]
+        table.loc[old_index, :] = old_row.iloc[0]
+        table.loc[old_index, 'superseded_by'] = new_lineid
         return table
+
+    def handle_new_row(self, table: 'pd.DataFrame', new_row: 'pd.Series', new_lineid: int):
+        new_row.loc[0, 'lineid'] = new_lineid
+        new_row.loc[0, 'in_use'] = 'Y'
+        return pd.concat([table, new_row], ignore_index=True)
