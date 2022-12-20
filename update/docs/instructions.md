@@ -10,7 +10,7 @@ status: draft
     poetry install
     ```
 2. Start the application
-    ´´´bash
+    ```bash
     poetry run invoke start
     ```
 
