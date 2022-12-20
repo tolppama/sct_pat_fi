@@ -96,6 +96,7 @@ class Component:
 
     def handle_old_row(self, table: 'pd.DataFrame', old_row: 'pd.Series', index: int, new_lineid: int):
         table.loc[index, :] = old_row[:]
+        table.loc[index, 'in_use'] = 'N'
         table.loc[index, 'superseded_by'] = new_lineid
         return table
 
@@ -106,6 +107,6 @@ class Component:
         return pd.concat([table, new_row], ignore_index=True)
 
     def handle_inactivated_row(self, table: 'pd.DataFrame', inactivated_row: 'pd.Series', index: int):
-        inactivated_row['in_use'] = 'N'
-        inactivated_row = inactivated_row.to_frame().T
-        return pd.concat([table, inactivated_row], ignore_index=True)
+        table.loc[index, :] = inactivated_row[:]
+        table.loc[index, 'in_use'] = 'N'
+        return table

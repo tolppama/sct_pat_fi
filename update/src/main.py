@@ -119,6 +119,8 @@ class Main:
 
     def __handle_inactivated_rows(self, inactivated_rows: 'pd.DataFrame', database: 'pd.DataFrame'):
         for index, row in inactivated_rows.iterrows():
+            index = self.__component.get_index_by_codeid(
+                database, row["lineid"])
             database = self.__component.handle_inactivated_row(
                 database, row, index)
         return database
@@ -126,7 +128,7 @@ class Main:
     def __handle_new_rows(self, new_rows: 'pd.DataFrame', database: 'pd.DataFrame'):
         bundles = self.__component.create_bundles(new_rows)
         for bundle in bundles:
-            database = self.__component.handle_new_bundle(
+            database = self.__component.__handle_new_bundle(
                 database, bundle)
         return database
 
