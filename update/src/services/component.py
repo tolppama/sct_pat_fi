@@ -17,10 +17,14 @@ class Component:
         table.to_excel(self.__config.output_file, index=False)
 
     def get_edit_rows(self, table: 'pd.DataFrame'):
+        table = table[table['status'] != 'new']
         return table[(table['lineid'].duplicated(keep=False))].copy()
 
     def get_new_rows(self, table: 'pd.DataFrame'):
         return table[table['status'] == 'new'].copy()
+
+    def get_activated_rows(self, table: 'pd.DataFrame'):
+        return table[table['status'] == 'activated'].copy()
 
     def get_inactivated_rows(self, table: 'pd.DataFrame'):
         return table[table['status'] == 'inactivated'].copy()
@@ -30,6 +34,9 @@ class Component:
 
     def get_lang_rows(self, table: 'pd.DataFrame'):
         return table[table['lang'] != 'en'].copy()
+
+    def get_lang_rows_by_en(self, table: 'pd.DataFrame', en_row: 'pd.DataFrame'):
+        return table[table['sct_termid_en'] == en_row['sct_termid_en']].copy()
 
     def get_old_row(self, table: 'pd.DataFrame'):
         return table[table['status'] != 'edit'].iloc[0]

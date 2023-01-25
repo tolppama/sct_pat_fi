@@ -20,9 +20,18 @@ class Main:
     def __get_update_types(self, excel: 'pd.DataFrame'):
         new_rows = self.__component.get_new_rows(excel)
         updated_rows = self.__component.get_edit_rows(excel)
+        activated_rows = self.__component.get_activated_rows(excel)
         inactivated_rows = self.__component.get_inactivated_rows(excel)
 
-        return new_rows, updated_rows, inactivated_rows
+        return new_rows, updated_rows, activated_rows, inactivated_rows
+
+    def __check_lang_conceptid(self, bundle: 'pd.DataFrame', database: 'pd.DataFrame'):
+        en_row = self.__component.get_en_row(bundle).iloc[0]
+        lang_rows = self.__component.get_lang_rows(bundle)
+        for index, _ in lang_rows.iterrows():
+            database.at[index, "sct_conceptid"] = en_row["sct_conceptid"]
+            database.at[index, "legacy_conceptid"] = en_row["legacy_conceptid"]
+        return database
 
     def __check_lang_termid(self, bundle: 'pd.DataFrame', database: 'pd.DataFrame'):
         en_row = self.__component.get_en_row(bundle).iloc[0]
@@ -38,7 +47,7 @@ class Main:
         return database
 
     def __handle_conceptid(self, table, row: 'pd.DataFrame', index: int, sn2: str, sctid: str):
-        if row["sct_conceptid"] in self.__empty_values and sctid in self.__empty_values and row["status"] == "edit":
+        if row["sct_conceptid"] in self.__empty_values and sctid in self.__empty_values and row["status"] in ["edit", "new"]:
             next_id = self.__component.next_fin_extension_id(
                 table, "sct_conceptid")
             new_conceptid = self.__verhoeff.generateVerhoeff(
@@ -48,7 +57,7 @@ class Main:
         return table
 
     def __handle_termid(self, table: 'pd.DataFrame', row: 'pd.DataFrame', index: int, sn2: str, sctid: str):
-        if row["sct_termid"] in self.__empty_values and sctid in self.__empty_values and row["status"] == "edit":
+        if row["sct_termid"] in self.__empty_values and sctid in self.__empty_values and row["status"] in ["edit", "new"]:
             next_id = self.__component.next_fin_extension_id(
                 table, "sct_termid")
             new_termid = self.__verhoeff.generateVerhoeff(
@@ -82,6 +91,14 @@ class Main:
         database = self.__handle_national_id(new_row_index, database)
         return self.__component.handle_old_row(database, old_row, old_row_index, new_codeid), new_codeid
 
+    def __handle_new_row(self, row: 'pd.DataFrame', database: 'pd.DataFrame'):
+        new_codeid = self.__component.get_next_codeid(database)
+        database = self.__component.handle_new_row(database, row, new_codeid)
+        new_row_index = self.__component.get_index_by_codeid(
+            database, new_codeid)
+        database = self.__handle_national_id(new_row_index, database)
+        return database, new_codeid
+
     def __handle_edit_bundle(self, bundle: 'pd.DataFrame', database: 'pd.DataFrame'):
         codeids = set(bundle['lineid'])
         new_lines = []
@@ -91,21 +108,20 @@ class Main:
             new_lines.append(new_id)
         bundle = database[database['lineid'].isin(new_lines)]
         if self.__component.bundle_has_en_row(bundle):
+            database = self.__check_lang_conceptid(bundle, database)
             database = self.__check_lang_termid(bundle, database)
+        else:
+            raise Exception("Bundle does not have an english row")
         return database
 
     def __handle_new_bundle(self, bundle: 'pd.DataFrame', database: 'pd.DataFrame'):
-        next_id = self.__component.get_next_codeid(database)
-        new_ids = self.__component.create_new_codeids(next_id, len(bundle))
-        for index, row in bundle.iterrows():
-            new_id = new_ids.pop()
-            table_ids.append(new_id)
-            database = self.__component.handle_new_row(database, row, new_id)
-            new_index = self.__component.get_index_by_codeid(database, new_id)
-            database = self.__handle_national_id(new_index, database)
-            table_ids = []
-        bundle = database[database['lineid'].isin(table_ids)]
+        new_lines = []
+        for _, row in bundle.iterrows():
+            database, new_id = self.__handle_new_row(row, database)
+            new_lines.append(new_id)
+        bundle = database[database['lineid'].isin(new_lines)]
         if self.__component.bundle_has_en_row(bundle):
+            database = self.__check_lang_conceptid(bundle, database)
             database = self.__check_lang_termid(bundle, database)
         else:
             raise Exception("Bundle does not have an english row")
@@ -128,13 +144,13 @@ class Main:
     def __handle_new_rows(self, new_rows: 'pd.DataFrame', database: 'pd.DataFrame'):
         bundles = self.__component.create_bundles(new_rows)
         for bundle in bundles:
-            database = self.__component.__handle_new_bundle(
-                database, bundle)
+            database = self.__handle_new_bundle(
+                bundle, database)
         return database
 
     def run(self):
         excel, database = self.__get_tables()
-        new_rows, updated_rows, inactivated_rows = self.__get_update_types(
+        new_rows, updated_rows, activated_rows, inactivated_rows = self.__get_update_types(
             excel)
         table = self.__handle_updated_rows(updated_rows, database)
         table = self.__handle_inactivated_rows(inactivated_rows, table)
