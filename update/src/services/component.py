@@ -114,6 +114,14 @@ class Component:
         return pd.concat([table, new_row], ignore_index=True)
 
     def handle_inactivated_row(self, table: 'pd.DataFrame', inactivated_row: 'pd.Series', index: int):
-        table.loc[index, :] = inactivated_row[:]
         table.loc[index, 'in_use'] = 'N'
+        table.loc[index, 'supersededtime'] = inactivated_row['supersededtime']
+        table.loc[index, 'inaktivoinnin_selite'] = inactivated_row['inaktivoinnin_selite']
+        return table
+
+    def handle_activated_row(self, table: 'pd.DataFrame', activated_row: 'pd.Series', index: int):
+        table.loc[index, 'in_use'] = 'Y'
+        table.loc[index, 'effectivetime'] = activated_row['effectivetime']
+        table.loc[index, 'supersededtime'] = activated_row['supersededtime']
+        table.loc[index, 'inaktivoinnin_selite'] = None
         return table

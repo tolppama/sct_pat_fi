@@ -61,7 +61,7 @@ class Main:
             next_id = self.__component.next_fin_extension_id(
                 table, "sct_termid")
             new_termid = self.__verhoeff.generateVerhoeff(
-                next_id, "10")
+                next_id, "11")
             table.at[index, "sct_termid"] = new_termid
             table.at[index, "legacy_termid"] = f"{sn2}-{new_termid}"
         return table
@@ -110,8 +110,6 @@ class Main:
         if self.__component.bundle_has_en_row(bundle):
             database = self.__check_lang_conceptid(bundle, database)
             database = self.__check_lang_termid(bundle, database)
-        else:
-            raise Exception("Bundle does not have an english row")
         return database
 
     def __handle_new_bundle(self, bundle: 'pd.DataFrame', database: 'pd.DataFrame'):
@@ -148,11 +146,21 @@ class Main:
                 bundle, database)
         return database
 
+    def __handle_activated_rows(self, activated_rows: 'pd.DataFrame', database: 'pd.DataFrame'):
+        for index, row in activated_rows.iterrows():
+            index = self.__component.get_index_by_codeid(
+                database, row["lineid"])
+            database = self.__component.handle_activated_row(
+                database, row, index)
+        return database
+
+
     def run(self):
         excel, database = self.__get_tables()
         new_rows, updated_rows, activated_rows, inactivated_rows = self.__get_update_types(
             excel)
         table = self.__handle_updated_rows(updated_rows, database)
         table = self.__handle_inactivated_rows(inactivated_rows, table)
+        table = self.__handle_activated_rows(activated_rows, table)
         table = self.__handle_new_rows(new_rows, table)
         self.__component.to_excel(table)
