@@ -42,8 +42,8 @@ class Main:
             if lang_row["sct_term"] == en_row["sct_term"]:
                 database.at[index, "sct_termid"] = en_row["sct_termid"]
                 database.at[index, "legacy_termid"] = en_row["legacy_termid"]
-            database.at[index, "sct_termid_en"] = en_row["sct_termid"]
-        database.at[en_row.name, "sct_termid_en"] = en_row["sct_termid"]
+            database.at[index, "sct_termid_en"] = en_row["lineid"]
+        database.at[en_row.name, "sct_termid_en"] = en_row["lineid"]
         return database
 
     def __handle_conceptid(self, table, row: 'pd.DataFrame', index: int, sn2: str, sctid: str):
@@ -163,4 +163,5 @@ class Main:
         table = self.__handle_inactivated_rows(inactivated_rows, table)
         table = self.__handle_activated_rows(activated_rows, table)
         table = self.__handle_new_rows(new_rows, table)
+        # table = self.__component.empty_status_column(table)
         self.__component.to_excel(table)

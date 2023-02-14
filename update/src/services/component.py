@@ -125,3 +125,7 @@ class Component:
         table.loc[index, 'supersededtime'] = activated_row['supersededtime']
         table.loc[index, 'inaktivoinnin_selite'] = None
         return table
+
+    def empty_status_column(self, table: 'pd.DataFrame'):
+        table['status'] = None
+        return table
