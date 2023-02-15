@@ -17,34 +17,25 @@ def concept_category(row):
     match = re.search("(?P<category>\(([^()]*)\))$", row["sct_concept_fsn"])
     if match and match.group("category"):
         return match.group("category")[1:-1]
+    return "unknown"
 
 
 def short_term(row):
-    if len(row["sct_term"]) > 50:
-        return row["sct_term"][:50]
-    return row["sct_term"]
-
-
-def parent_id(row):
-    if row["lang"] == "en":
-        return None
-    return row["sct_termid_en"]
+    return row["sct_term"][:50] if len(row["sct_term"]) > 50 else row["sct_term"]
 
 
 def hierarchy_level(row):
-    if row["lang"] == "en":
-        return 0
-    return 1
+    return 0 if row["lang"] == "en" else 1
 
 
 def cs_columns(df):
     df["hierarchy_level"] = df.apply(hierarchy_level, axis=1)
-    df["sct_termid_en"] = df.apply(parent_id, axis=1)
     df["gui_category"] = df.apply(qui_category, axis=1)
     df["concept_category"] = df.apply(concept_category, axis=1)
     df["short_name"] = df.apply(short_term, axis=1)
     df["abbreviation"] = df.apply(short_term, axis=1)
     df["order_number"] = range(1, 1 + len(df))
+    df["order_number"] = df["order_number"].astype(int)
     return df
 
 
@@ -75,18 +66,13 @@ def select_columns(df):
     return df
 
 
-def sort_df(df):
-    df = df.sort_values(by=["legacy_conceptid", "lang", "sct_termid_en"])
-    return df
-
-
 def rename_columns(df):
     df = df.rename(columns={
         "lineid": "CodeID",
         "abbreviation": "Abbreviation",
         "short_name": "ShortName",
         "sct_term": "LongName",
-        "sct_termid_en": "ParentID",
+        "sct_termid_en": "ParentId",
         "hierarchy_level": "HierarchyLevel",
         "in_use": "A:Active",
         "effectivetime": "BeginningDate",
@@ -107,6 +93,15 @@ def rename_columns(df):
     return df
 
 
+def sort_df(df):
+    df = df.sort_values(by=["A:Legacy_ConceptID", "ParentId", "A:Lang"])
+    return df
+
+
+def parent_id(row):
+    return None if row["A:Lang"] == "en" else row["ParentId"]
+
+
 def to_excel(final_df):
     final_df.to_excel(
         "test_cs_format.xlsx", index=False)
@@ -117,8 +112,9 @@ def main():
     df = db.get()
     df = cs_columns(df)
     df = select_columns(df)
-    df = sort_df(df)
     df = rename_columns(df)
+    df = sort_df(df)
+    df["ParentId"] = df.apply(parent_id, axis=1)
     to_excel(df)
 
 
