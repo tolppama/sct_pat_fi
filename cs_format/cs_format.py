@@ -34,8 +34,8 @@ def cs_columns(df):
     df["concept_category"] = df.apply(concept_category, axis=1)
     df["short_name"] = df.apply(short_term, axis=1)
     df["abbreviation"] = df.apply(short_term, axis=1)
-    df["order_number"] = range(1, 1 + len(df))
-    df["order_number"] = df["order_number"].astype(int)
+    df["order_number"] = None
+    df["order_number"] = None
     return df
 
 
@@ -50,8 +50,8 @@ def select_columns(df):
         "in_use",
         "effectivetime",
         "supersededtime",
-        "superceded_by",
-        "inaktivoinnin_selite",
+        # "superceded_by",
+        # "inaktivoinnin_selite",
         "concept_category",
         "gui_category",
         "icdo_code_ssr",
@@ -77,8 +77,8 @@ def rename_columns(df):
         "in_use": "A:Active",
         "effectivetime": "BeginningDate",
         "supersededtime": "ExpiringDate",
-        "superceded_by": "A:KorvaavaKoodi",
-        "inaktivoinnin_selite": "A:InaktivoinninSelite",
+        # "superceded_by": "A:KorvaavaKoodi",
+        # "inaktivoinnin_selite": "A:InaktivoinninSelite",
         "concept_category": "A:Concept_Category",
         "gui_category": "A:GUI_Category",
         "icdo_code_ssr": "A:ICD-O-3_Morfologia",
@@ -95,6 +95,8 @@ def rename_columns(df):
 
 def sort_df(df):
     df = df.sort_values(by=["A:Legacy_ConceptID", "ParentId", "A:Lang"])
+    df["ANUM:JarjestysNro"] = range(1, 1 + len(df))
+    df["ANUM:JarjestysNro"] = df["ANUM:JarjestysNro"].astype(int)
     return df
 
 
