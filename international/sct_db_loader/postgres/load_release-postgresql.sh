@@ -21,6 +21,14 @@ then
 	dbUsername=$newDbUsername
 fi
 
+dbPassword=1234
+echo "Enter postgres password [$dbPassword]:"
+read newDbPassword
+if [ -n "$newDbPassword" ]
+then
+	dbPassword=$newDbPassword
+fi
+
 dbPortNumber=5432
 echo "Enter postgres port number [$dbPortNumber|:"
 read newDbPortNumber
@@ -108,7 +116,7 @@ addLoadScript der2_cRefset_AttributeValueTYPE_INT_DATE.txt attributevaluerefset
 addLoadScript der2_cRefset_LanguageTYPE-en_INT_DATE.txt langrefset
 addLoadScript der2_cRefset_AssociationTYPE_INT_DATE.txt associationrefset
 
-psql -U ${dbUsername} -p ${dbPortNumber} -d ${dbName} << EOF
+psql -U ${dbUsername} -p ${dbPortNumber} -d ${dbName} -W ${dbPassword} << EOF
 	\ir create-database-postgres.sql;
 	\ir environment-postgresql.sql;
 	\ir ${generatedLoadScript};
