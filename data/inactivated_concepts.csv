@@ -1,0 +1,29 @@
+lineid,in_use,lang,legacy_termid,sct_termid,sct_term,reason_for_inactivation,association_type,new_conceptid,new_fsn,active,effectivetime
+10245,Y,fi,M99823-207458010,207458010,Refractory anemia with sideroblasts,Outdated,NULL,NULL,NULL,NULL,NULL
+114,Y,en,D35640-203313019,203313019,Mastocytosis,Not semantically equivalent component ,Refers to,127581004,Mastocytosis (morphologic abnormality),1,20020131
+11635,Y,sv,M98953-2872263013,2872263013,Acute myeloid leukemia with myelodysplasia-related changes,Outdated,NULL,NULL,NULL,NULL,NULL
+11639,Y,sv,M98723-167434015,167434015,"Acute myeloid leukemia, minimal differentiation",Nonconformance to editorial polity component,NULL,NULL,NULL,NULL,NULL
+11640,Y,sv,M98963-207413016,207413016,"Acute myeloid leukemia, t(8:21) (q22:q22)",Outdated,NULL,NULL,NULL,NULL,NULL
+11643,Y,sv,M98663-196702010,196702010,"Acute promyelocytic leukemia, t(15:17)(q22:q11-12)",Outdated,NULL,NULL,NULL,NULL,NULL
+12740,Y,sv,M88131-409907011,409907011,Dupuytren's contracture,Nonconformance to editorial polity component,NULL,NULL,NULL,NULL,NULL
+15030,Y,sv,M99673-2921150012,2921150012,Myeloid or lymphoid neoplasm with FGFR1 abnormality,Outdated,NULL,NULL,NULL,NULL,NULL
+15968,Y,sv,M99823-207458010,207458010,Refractory anemia with sideroblasts,Outdated,NULL,NULL,NULL,NULL,NULL
+1718,Y,en,M88131-409907011,409907011,Dupuytren's contracture,Nonconformance to editorial polity component,NULL,NULL,NULL,NULL,NULL
+1992,Y,en,M81523-207486019,207486019,Glucagonoma,Nonconformance to editorial polity component,NULL,NULL,NULL,NULL,NULL
+3189,Y,en,M98663-196702010,196702010,"Acute promyelocytic leukemia, t(15:17)(q22:q11-12)",Outdated,NULL,NULL,NULL,NULL,NULL
+3194,Y,en,M98723-167434015,167434015,"Acute myeloid leukemia, minimal differentiation",Nonconformance to editorial polity component,NULL,NULL,NULL,NULL,NULL
+3204,Y,en,M98953-2872263013,2872263013,Acute myeloid leukemia with myelodysplasia-related changes,Outdated,NULL,NULL,NULL,NULL,NULL
+3205,Y,en,M98963-207413016,207413016,"Acute myeloid leukemia, t(8:21) (q22:q22)",Outdated,NULL,NULL,NULL,NULL,NULL
+3228,Y,en,M99673-2921150012,2921150012,Myeloid or lymphoid neoplasm with FGFR1 abnormality,Outdated,NULL,NULL,NULL,NULL,NULL
+3236,Y,en,M99823-207458010,207458010,Refractory anemia with sideroblasts,Outdated,NULL,NULL,NULL,NULL,NULL
+47,Y,en,D06500-179060018,179060018,Disease caused by parasite,Nonconformance to editorial polity component,NULL,NULL,NULL,NULL,NULL
+4748,Y,en,TY2960-53048014,53048014,Soft tissues of thorax,Nonconformance to editorial polity component,NULL,NULL,NULL,NULL,NULL
+504,Y,en,M22460-3769038015,3769038015,Congenital multiple arthrogryposis,Not semantically equivalent component ,Refers to,205402004,Arthrogryposis multiplex congenita (disorder),1,20230228
+5244,Y,en,M85002-4591568018,4591568018,Intraductal carcinoma,Outdated,NULL,NULL,NULL,NULL,NULL
+5707,Y,fi,M98953-2872263013,2872263013,Acute myeloid leukemia with myelodysplasia-related changes,Outdated,NULL,NULL,NULL,NULL,NULL
+5711,Y,fi,M98723-167434015,167434015,"Acute myeloid leukemia, minimal differentiation",Nonconformance to editorial polity component,NULL,NULL,NULL,NULL,NULL
+5712,Y,fi,M98963-207413016,207413016,"Acute myeloid leukemia, t(8:21) (q22:q22)",Outdated,NULL,NULL,NULL,NULL,NULL
+5715,Y,fi,M98663-196702010,196702010,"Acute promyelocytic leukemia, t(15:17)(q22:q11-12)",Outdated,NULL,NULL,NULL,NULL,NULL
+6622,Y,fi,M88131-409907011,409907011,Dupuytren's contracture,Nonconformance to editorial polity component,NULL,NULL,NULL,NULL,NULL
+760,Y,en,M33600-359596011,359596011,Baker's cyst of knee,Not semantically equivalent component ,Refers to,1290249005,Synovial popliteal cyst (disorder),1,20231001
+9246,Y,fi,M99673-2921150012,2921150012,Myeloid or lymphoid neoplasm with FGFR1 abnormality,Outdated,NULL,NULL,NULL,NULL,NULL
